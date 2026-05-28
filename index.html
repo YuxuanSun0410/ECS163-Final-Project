@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Why Do Employees Leave Their Jobs?</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <section id="intro">
+    <h1>Why Do Employees Leave Their Jobs?</h1>
+    <p>Exploring the factors behind employee attrition.</p>
+  </section>
+
+  <section id="bar-chart-section">
+    <h2>Attrition by Department</h2>
+    <svg id="bar-chart" width="800" height="500"></svg>
+  </section>
+
+  <section id="sankey-section">
+    <h2>Attrition Pathways</h2>
+    <svg id="sankey" width="900" height="600"></svg>
+  </section>
+
+  <section id="scatter-section">
+    <h2>Income vs. Job Satisfaction</h2>
+    <svg id="scatter-plot" width="800" height="500"></svg>
+  </section>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+  <script src="src/barChart.js"></script>
+  <script src="src/sankey.js"></script>
+  <script src="src/scatterPlot.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>
