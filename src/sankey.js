@@ -92,6 +92,14 @@ function drawSankey(data) {
     .domain(["Stayed", "Left"])
     .range(["#4c9f70", "#d95f5f"]);
 
+  // Tooltip
+  const tooltip = d3.select("body")
+    .selectAll(".tooltip")
+    .data([null])
+    .join("div")
+    .attr("class", "tooltip");
+
+
   // Links
   g.append("g")
     .attr("fill", "none")
@@ -155,7 +163,32 @@ function drawSankey(data) {
       if (d.name === "All Employees") return "#555";
       return "#6b8fb3";
     })
-    .attr("opacity", 0.9);
+    .attr("opacity", 0.9)
+    .on("mouseover", function(event, d) {
+      d3.select(this)
+        .attr("opacity", 1)
+        .attr("stroke", "#333")
+        .attr("stroke-width", 1.5);
+
+      tooltip
+        .style("opacity", 1)
+        .html(
+          `<strong>${d.name}</strong><br>
+          Employees: ${d.value}`
+        );
+    })
+    .on("mousemove", function(event) {
+      tooltip
+        .style("left", event.pageX + 12 + "px")
+        .style("top", event.pageY - 28 + "px");
+    })
+    .on("mouseout", function() {
+      d3.select(this)
+        .attr("opacity", 0.9)
+        .attr("stroke", "none");
+
+      tooltip.style("opacity", 0);
+    });
 
   node.append("text")
     .attr("x", d => d.x0 < innerWidth / 2 ? d.x1 + 6 : d.x0 - 6)
@@ -174,8 +207,4 @@ function drawSankey(data) {
     .attr("font-weight", "bold")
     .text("Employee Attrition Pathways");
 
-  // Tooltip
-  const tooltip = d3.select("body")
-    .append("div")
-    .attr("class", "tooltip");
-}
+  }

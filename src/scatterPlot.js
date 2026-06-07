@@ -63,19 +63,52 @@ function drawScatterPlot(data) {
         })
     );
 
-  // Jitter makes the categorical satisfaction levels easier to see.
-  g.selectAll("circle")
-    .data(data)
-    .enter()
-    .append("circle")
-    .attr("cx", d => x(d.monthlyIncome))
-    .attr("cy", d => y(d.satisfactionScore) + (Math.random() - 0.5) * 24)
-    .attr("r", 0)
-    .attr("fill", d => color(d.Attrition))
-    .attr("opacity", 0.32)
-    .transition()
-    .duration(800)
-    .attr("r", 3);
+const tooltip = d3.select("body")
+  .selectAll(".tooltip")
+  .data([null])
+  .join("div")
+  .attr("class", "tooltip");
+
+// Jitter makes the categorical satisfaction levels easier to see.
+g.selectAll("circle")
+  .data(data)
+  .enter()
+  .append("circle")
+  .attr("cx", d => x(d.monthlyIncome))
+  .attr("cy", d => y(d.satisfactionScore) + (Math.random() - 0.5) * 24)
+  .attr("r", 3)
+  .attr("fill", d => color(d.Attrition))
+  .attr("data-job-role", d => d["Job Role"])
+  .attr("opacity", 0.32)
+  .on("mouseover", function(event, d) {
+    d3.select(this)
+      .attr("r", 7)
+      .attr("stroke", "#333")
+      .attr("stroke-width", 1.5)
+      .attr("opacity", 0.9);
+
+    tooltip
+      .style("opacity", 1)
+      .html(
+        `<strong>${d["Job Role"]}</strong><br>
+        Monthly Income: $${d["Monthly Income"]}<br>
+        Job Satisfaction: ${d["Job Satisfaction"]}<br>
+        Attrition: ${d["Attrition"]}`
+      );
+  })
+  .on("mousemove", function(event) {
+    tooltip
+      .style("left", event.pageX + 12 + "px")
+      .style("top", event.pageY - 28 + "px");
+  })
+  .on("mouseout", function() {
+    d3.select(this)
+      .attr("r", 3)
+      .attr("stroke", "none")
+      .attr("opacity", 0.32);
+
+    tooltip.style("opacity", 0);
+  });
 
   g.append("text")
     .attr("x", innerWidth / 2)

@@ -65,19 +65,51 @@ function drawBarChart(data) {
   g.append("g")
     .call(d3.axisLeft(y).tickFormat(d3.format(".0%")));
 
-  g.selectAll("rect")
-    .data(chartData)
-    .enter()
-    .append("rect")
-    .attr("x", d => x(d.jobRole))
-    .attr("y", innerHeight)
-    .attr("width", x.bandwidth())
-    .attr("height", 0)
-    .attr("fill", "#d95f5f")
-    .transition()
-    .duration(900)
-    .attr("y", d => y(d.attritionRate))
-    .attr("height", d => innerHeight - y(d.attritionRate));
+const tooltip = d3.select("body")
+  .selectAll(".tooltip")
+  .data([null])
+  .join("div")
+  .attr("class", "tooltip");
+
+g.selectAll("rect")
+  .data(chartData)
+  .enter()
+  .append("rect")
+  .attr("x", d => x(d.jobRole))
+  .attr("y", innerHeight)
+  .attr("width", x.bandwidth())
+  .attr("height", 0)
+  .attr("fill", "#d95f5f")
+  .attr("data-job-role", d => d.jobRole)
+  .on("mouseover", function(event, d) {
+    setSelectedJobRole(d.jobRole);
+    d3.select(this).attr("fill", "#b84a4a");
+
+    tooltip
+      .style("opacity", 1)
+      .html(
+        `<strong>${d.jobRole}</strong><br>
+        Attrition Rate: ${(d.attritionRate * 100).toFixed(1)}%<br>
+        Left: ${d.left}<br>
+        Total: ${d.total}`
+      );
+  })
+  .on("mousemove", function(event) {
+    tooltip
+      .style("left", event.pageX + 12 + "px")
+      .style("top", event.pageY - 28 + "px");
+  })
+  .on("mouseout", function() {
+    d3.select(this).attr("fill", "#d95f5f");
+
+    tooltip
+      .style("opacity", 0);
+      clearSelectedJobRole();
+  })
+  .transition()
+  .duration(900)
+  .attr("y", d => y(d.attritionRate))
+  .attr("height", d => innerHeight - y(d.attritionRate));
 
   g.append("text")
     .attr("x", innerWidth / 2)

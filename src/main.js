@@ -10,3 +10,22 @@ d3.csv("data/employee_attrition.csv").then(data => {
   drawSankey(data);
   drawScatterPlot(data);
 });
+
+let selectedJobRole = null;
+
+function setSelectedJobRole(jobRole) {
+  selectedJobRole = jobRole;
+
+  d3.selectAll("[data-job-role]")
+    .attr("opacity", function() {
+      const thisRole = d3.select(this).attr("data-job-role");
+      return thisRole === jobRole ? 1 : 0.18;
+    });
+}
+
+function clearSelectedJobRole() {
+  selectedJobRole = null;
+
+  d3.selectAll("[data-job-role]")
+    .attr("opacity", null);
+}
