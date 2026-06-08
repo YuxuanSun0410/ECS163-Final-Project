@@ -3,29 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <title>Why Do Employees Leave Their Jobs?</title>
+
+  <!-- Modern dashboard font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <section id="dashboard-section">
-  <h1>Employee Attrition Dashboard</h1>
+  <main class="page-shell">
+    <section id="dashboard-section">
+      <div class="hero">
+        <p class="eyebrow">Employee Attrition Analysis</p>
+        <h1>Why Do Employees Leave Their Jobs?</h1>
+        <p class="dashboard-intro">
+          This dashboard explores employee attrition as a multi-factor story.
+          We start from job roles, compare individual employee patterns, and then trace
+          possible pathways behind stay-or-leave outcomes.
+        </p>
+      </div>
 
-  <div class="top-row">
-    <div class="chart-card">
-      <svg id="bar-chart" width="560" height="380"></svg>
-    </div>
+      <div class="insight-box">
+        <span class="insight-label">Key Insight</span>
+        <p>
+          Attrition is not explained by one variable alone. Higher-risk groups often appear
+          through a combination of role, income level, overtime, and satisfaction.
+        </p>
+      </div>
 
-    <div class="chart-card">
-      <svg id="scatter-plot" width="560" height="380"></svg>
-    </div>
-  </div>
+      <div class="top-row">
+        <div class="chart-card">
+          <div class="chart-header">
+            <p class="chart-step">Step 1</p>
+            <h2>Where is attrition highest?</h2>
+            <p class="chart-note">
+              The bar chart compares attrition rates across job roles. Hover over a bar to see
+              how many employees left and highlight the same role in the scatter plot.
+            </p>
+          </div>
+          <svg id="bar-chart" width="560" height="380"></svg>
+        </div>
 
-  <div class="bottom-row">
-    <div class="chart-card">
-      <svg id="sankey" width="1180" height="520"></svg>
-    </div>
-  </div>
-</section>
+        <div class="chart-card">
+          <div class="chart-header">
+            <p class="chart-step">Step 2</p>
+            <h2>Do income and satisfaction explain it?</h2>
+            <p class="chart-note">
+              Each point represents one employee. The scatter plot connects role-level attrition
+              patterns with individual income and satisfaction.
+            </p>
+          </div>
+          <svg id="scatter-plot" width="560" height="380"></svg>
+        </div>
+      </div>
+
+      <div class="bottom-row">
+        <div class="chart-card sankey-card">
+          <div class="chart-header">
+            <p class="chart-step">Step 3</p>
+            <h2>Attrition is a pathway, not a single cause</h2>
+            <p class="chart-note">
+              The Sankey diagram shows how employees move from department to income level,
+              overtime status, satisfaction level, and finally stayed or left.
+            </p>
+          </div>
+          <svg id="sankey" width="1180" height="520"></svg>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
