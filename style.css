@@ -1,3 +1,4 @@
+/* Global page styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -5,27 +6,27 @@ body {
   background: #fafafa;
   color: #222;
 }
-
+/* General section layout */
 section {
   padding: 60px 10%;
   min-height: 500px;
 }
-
+/* Main heading */
 h1 {
   font-size: 48px;
   margin-bottom: 16px;
 }
-
+/* Section heading */
 h2 {
   font-size: 30px;
   margin-bottom: 24px;
 }
-
+/* Default SVG chart style */
 svg {
   background: white;
   border: 1px solid #ddd;
 }
-
+/* Tooltip shown when hovering over chart elements */
 .tooltip {
   position: absolute;
   background: white;
@@ -40,17 +41,17 @@ svg {
   z-index: 10;
 }
 
-
+/* Dashboard spacing */
 #dashboard-section {
   padding: 30px 3%;
 }
-
+/* Dashboard title */
 #dashboard-section h1 {
   text-align: center;
   font-size: 42px;
   margin-bottom: 24px;
 }
-
+/* Top row: bar chart and scatter plot */
 .top-row {
   display: flex;
   flex-direction: row;
@@ -59,19 +60,19 @@ svg {
   gap: 20px;
   flex-wrap: nowrap;
 }
-
+/* Bottom row: Sankey diagram */
 .bottom-row {
   display: flex;
   justify-content: center;
   margin-top: 24px;
 }
-
+/* White container for each chart */
 .chart-card {
   background: white;
   padding: 10px;
   box-sizing: border-box;
 }
-
+/* Keep charts responsive inside their containers */
 svg {
   max-width: 100%;
 }

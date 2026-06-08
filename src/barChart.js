@@ -2,7 +2,7 @@ function drawBarChart(data) {
   const svg = d3.select("#bar-chart");
   const width = +svg.attr("width");
   const height = +svg.attr("height");
-
+// Set chart margins and drawing area.
   const margin = {
     top: 40,
     right: 30,
@@ -18,7 +18,7 @@ function drawBarChart(data) {
   const g = svg
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
+// Group employees by job role and calculate attrition rate.
   const grouped = d3.rollups(
     data,
     values => {
@@ -33,7 +33,7 @@ function drawBarChart(data) {
     },
     d => d["Job Role"]
   );
-
+// Format grouped data for the bar chart.
   const chartData = grouped.map(([jobRole, values]) => ({
     jobRole: jobRole,
     total: values.total,
@@ -42,7 +42,7 @@ function drawBarChart(data) {
   }));
 
   chartData.sort((a, b) => d3.descending(a.attritionRate, b.attritionRate));
-
+// Create scales for job roles and attrition rate.
   const x = d3
     .scaleBand()
     .domain(chartData.map(d => d.jobRole))
@@ -54,7 +54,7 @@ function drawBarChart(data) {
     .domain([0, d3.max(chartData, d => d.attritionRate)])
     .nice()
     .range([innerHeight, 0]);
-
+ // Draw axes.
   g.append("g")
     .attr("transform", `translate(0, ${innerHeight})`)
     .call(d3.axisBottom(x))
@@ -64,13 +64,13 @@ function drawBarChart(data) {
 
   g.append("g")
     .call(d3.axisLeft(y).tickFormat(d3.format(".0%")));
-
+// Create shared tooltip.
 const tooltip = d3.select("body")
   .selectAll(".tooltip")
   .data([null])
   .join("div")
   .attr("class", "tooltip");
-
+// Draw bars with tooltip and linked highlighting.
 g.selectAll("rect")
   .data(chartData)
   .enter()
@@ -110,7 +110,7 @@ g.selectAll("rect")
   .duration(900)
   .attr("y", d => y(d.attritionRate))
   .attr("height", d => innerHeight - y(d.attritionRate));
-
+ // Add chart title.
   g.append("text")
     .attr("x", innerWidth / 2)
     .attr("y", -15)
@@ -118,13 +118,13 @@ g.selectAll("rect")
     .attr("font-size", "18px")
     .attr("font-weight", "bold")
     .text("Attrition Rate by Job Role");
-
+// Add x-axis label.
   g.append("text")
     .attr("x", innerWidth / 2)
     .attr("y", innerHeight + 95)
     .attr("text-anchor", "middle")
     .text("Job Role");
-
+// Add y-axis label.
   g.append("text")
     .attr("transform", "rotate(-90)")
     .attr("x", -innerHeight / 2)

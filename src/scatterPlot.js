@@ -2,7 +2,7 @@ function drawScatterPlot(data) {
   const svg = d3.select("#scatter-plot");
   const width = +svg.attr("width");
   const height = +svg.attr("height");
-
+// Set chart margins and drawing area.
   const margin = {
     top: 50,
     right: 140,
@@ -18,19 +18,19 @@ function drawScatterPlot(data) {
   const g = svg
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
+// Convert satisfaction categories into numeric positions.
   const satisfactionMap = {
     "Low": 1,
     "Medium": 2,
     "High": 3,
     "Very High": 4
   };
-
+// Prepare numeric fields used by the scatter plot.
   data.forEach(d => {
     d.monthlyIncome = +d["Monthly Income"];
     d.satisfactionScore = satisfactionMap[d["Job Satisfaction"]];
   });
-
+// Create scales for income and satisfaction.
   const x = d3
     .scaleLinear()
     .domain(d3.extent(data, d => d.monthlyIncome))
@@ -41,12 +41,12 @@ function drawScatterPlot(data) {
     .scaleLinear()
     .domain([0.5, 4.5])
     .range([innerHeight, 0]);
-
+// Color points by attrition outcome.
   const color = d3
     .scaleOrdinal()
     .domain(["Stayed", "Left"])
     .range(["#4c9f70", "#d95f5f"]);
-
+// Draw axes.
   g.append("g")
     .attr("transform", `translate(0, ${innerHeight})`)
     .call(d3.axisBottom(x));
@@ -62,7 +62,7 @@ function drawScatterPlot(data) {
           if (d === 4) return "Very High";
         })
     );
-
+// Create shared tooltip.
 const tooltip = d3.select("body")
   .selectAll(".tooltip")
   .data([null])
@@ -109,7 +109,7 @@ g.selectAll("circle")
 
     tooltip.style("opacity", 0);
   });
-
+// Add chart title.
   g.append("text")
     .attr("x", innerWidth / 2)
     .attr("y", -20)
@@ -117,20 +117,20 @@ g.selectAll("circle")
     .attr("font-size", "18px")
     .attr("font-weight", "bold")
     .text("Monthly Income vs. Job Satisfaction");
-
+// Add x-axis label.
   g.append("text")
     .attr("x", innerWidth / 2)
     .attr("y", innerHeight + 50)
     .attr("text-anchor", "middle")
     .text("Monthly Income");
-
+// Add y-axis label.
   g.append("text")
     .attr("transform", "rotate(-90)")
     .attr("x", -innerHeight / 2)
     .attr("y", -60)
     .attr("text-anchor", "middle")
     .text("Job Satisfaction");
-
+// Add legend for attrition outcome.
   const legend = g
     .append("g")
     .attr("transform", `translate(${innerWidth + 30}, 20)`);

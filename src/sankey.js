@@ -2,7 +2,7 @@ function drawSankey(data) {
   const svg = d3.select("#sankey");
   const width = +svg.attr("width");
   const height = +svg.attr("height");
-
+  // Set chart margins and drawing area.
   const margin = {
     top: 40,
     right: 30,
@@ -28,7 +28,7 @@ function drawSankey(data) {
   );
 
   const filteredData = data.filter(d => topRoles.includes(d["Job Role"]));
-
+  // Store unique nodes and combine repeated links.
   const nodeNames = new Set();
   const linksMap = new Map();
 
@@ -43,7 +43,7 @@ function drawSankey(data) {
       value: (linksMap.get(key)?.value || 0) + value
     });
   }
-
+  // Build pathway links for each employee.
   filteredData.forEach(d => {
     const role = d["Job Role"];
 
@@ -67,7 +67,7 @@ function drawSankey(data) {
     addLink(overtime, satisfaction, 1);
     addLink(satisfaction, outcome, 1);
     });
-
+  // Build pathway links for each employee.
   const nodes = Array.from(nodeNames, name => ({ name }));
 
   const nodeIndex = new Map(nodes.map((d, i) => [d.name, i]));
@@ -77,7 +77,7 @@ function drawSankey(data) {
     target: nodeIndex.get(d.target),
     value: d.value
   }));
-
+// Create Sankey layout.
   const sankey = d3.sankey()
     .nodeWidth(18)
     .nodePadding(18)
@@ -87,7 +87,7 @@ function drawSankey(data) {
     nodes: nodes.map(d => Object.assign({}, d)),
     links: links.map(d => Object.assign({}, d))
   });
-
+// Use separate colors for stayed and left outcomes.
   const color = d3.scaleOrdinal()
     .domain(["Stayed", "Left"])
     .range(["#4c9f70", "#d95f5f"]);
